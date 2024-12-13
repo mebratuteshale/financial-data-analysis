@@ -7,6 +7,9 @@ from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
 
+import matplotlib.pyplot as plt
+
+
 class FinancialAnalyzer:
     def __init__(self,ticker,start_date,end_date):
         self.ticker=ticker
@@ -27,7 +30,7 @@ class FinancialAnalyzer:
         # Add more indicators as needed
         return data
     def plot_stock_data(self,data):
-        fig = px.line(data,x=data.index,y=['Close','SMA'],title='Stock Price with Moving'])
+        fig = px.line(data,x=data.index,y=['Close','SMA'],title='Stock Price with Moving')
         fig.show()
     def plot_rsi(self,data):
         fig=px.line(data,x=data.index,y='RSI',title='Relative Strength Index (RSI)')
@@ -53,3 +56,28 @@ class FinancialAnalyzer:
         weights=ef.max_sharpe()
         portfolio_return, portfolio_volatility, sharpe_ratio=ef.portfolio_performance()
         return portfolio_return, portfolio_volatility,sharpe_ratio
+
+class GeneralConfiguration:
+    def read_csv_file(filePath:str):
+        data=pd.read_csv(filePath)  # read csv file
+        data=data.loc[:,~data.columns.str.contains('^Unnamed')]
+        return data
+    
+class PlotGraph:
+    def plot_stock_data(dataFrame,dateColumn:str='date',stockValueCol:str='stock_value',title:str='Stock Value Over Time'):
+        # Plots stock value over time from csv file
+        dataFrame[dateColumn]=pd.to_datetime(dataFrame[dateColumn],errors='coerce',format='%Y-%m-%d %H:%M:%S')
+        dataFrame.dropna(subset=[dateColumn],inplace=True)
+        plt.figure(figsize=(10,6))
+        plt.plot(dataFrame[dateColumn],dataFrame[stockValueCol],label=stockValueCol,color='b')
+        plt.xlabel('Date')
+        plt.ylabel('Stock Value')
+        plt.title(title)
+
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+        
+    
