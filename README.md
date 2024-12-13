@@ -31,3 +31,10 @@ Install yfinance
 ```
 pip install PyPortfolioOpt
 ```
+## Descriptive Statistics:
++ Publications Count by day
+![alt text](https://github.com/mebratuteshale/financial-data-analysis/blob/main/screenshots/NumOfPubOverTime.png)
++ Publication frequency by day of the week
+![Analyze publication frequency by day of the week](https://github.com/mebratuteshale/financial-data-analysis/blob/main/screenshots/PubFreqByDayoftheWeek.png)
++ Publication trends by month and year
+![Analyze publication trends by month and year](https://github.com/mebratuteshale/financial-data-analysis/blob/main/screenshots/PubTrendsbyMonthAndYr.png)
