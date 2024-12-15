@@ -56,28 +56,35 @@ class FinancialAnalyzer:
         weights=ef.max_sharpe()
         portfolio_return, portfolio_volatility, sharpe_ratio=ef.portfolio_performance()
         return portfolio_return, portfolio_volatility,sharpe_ratio
-
-class GeneralConfiguration:
-    def read_csv_file(filePath:str):
-        data=pd.read_csv(filePath)  # read csv file
-        data=data.loc[:,~data.columns.str.contains('^Unnamed')]
-        return data
-    
+ 
 class PlotGraph:
-    def plot_stock_data(dataFrame,dateColumn:str='date',stockValueCol:str='stock_value',title:str='Stock Value Over Time'):
+    def plot_stock_data(dataFrames,dateColumn:str='Date',stockValueCol:str='stock_value',colorCol='Color',title:str='Stock Value Over Time'):
         # Plots stock value over time from csv file
-        dataFrame[dateColumn]=pd.to_datetime(dataFrame[dateColumn],errors='coerce',format='%Y-%m-%d %H:%M:%S')
-        dataFrame.dropna(subset=[dateColumn],inplace=True)
-        plt.figure(figsize=(10,6))
-        plt.plot(dataFrame[dateColumn],dataFrame[stockValueCol],label=stockValueCol,color='b')
+        color=['r','b','g','r','g','b','g','r']
+        i=0
+        for df in dataFrames:
+            # df[dateColumn]=pd.to_datetime(df[dateColumn],errors='coerce',format='%Y-%m-%d %H:%M:%S')
+            # plt.figure(figsize=(10,6))
+            plt.plot(df[dateColumn],df[stockValueCol],label=stockValueCol,color=color[i])
+            i+=1
         plt.xlabel('Date')
         plt.ylabel('Stock Value')
         plt.title(title)
 
-        plt.xticks(rotation=45)
+        # plt.xticks(rotation=45)
         plt.grid(True)
-        plt.legend()
+        plt.legend(loc='best')
         plt.tight_layout()
         plt.show()
+class CommonAnalysis:
+    def GroupData(dataFrame,gropingCol:str):
+        df_grouped=dataFrame.groupby(gropingCol)
+        return df_grouped
+    def read_csv_file(filePath:str):
+        dataframe=pd.read_csv(filePath)  # read csv file
+        dataframe=dataframe.loc[:,~dataframe.columns.str.contains('^Unnamed')]
+        return dataframe
+    
+
         
     
