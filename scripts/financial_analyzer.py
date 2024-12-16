@@ -85,6 +85,18 @@ class CommonAnalysis:
         dataframe=dataframe.loc[:,~dataframe.columns.str.contains('^Unnamed')]
         return dataframe
     
+from textblob import TextBlob
+
+class SentimentAnalysis:
+    def get_sentiment(headline):
+        analysis = TextBlob(headline)
+        if analysis.sentiment.polarity > 0:
+            return 'Positive'
+        elif analysis.sentiment.polarity < 0:
+            return 'Negative'
+        else:
+            return 'Neutral'
+    
 
         
     
