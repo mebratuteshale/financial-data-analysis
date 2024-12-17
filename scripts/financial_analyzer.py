@@ -86,16 +86,27 @@ class CommonAnalysis:
         return dataframe
     
 from textblob import TextBlob
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 
-class SentimentAnalysis:
-    def get_sentiment(headline):
-        analysis = TextBlob(headline)
-        if analysis.sentiment.polarity > 0:
-            return 'Positive'
-        elif analysis.sentiment.polarity < 0:
-            return 'Negative'
-        else:
-            return 'Neutral'
+# class SentimentAnalysis:
+#     # Preprocessing
+#     stop_words = set(stopwords.words('english'))
+#     lemmatizer = WordNetLemmatizer()
+#     def get_sentiment(headline):
+#         analysis = TextBlob(headline)
+#         if analysis.sentiment.polarity > 0:
+#             return 'Positive'
+#         elif analysis.sentiment.polarity < 0:
+#             return 'Negative'
+#         else:
+#             return 'Neutral'
+#     def preprocess_text(headline):
+#         tokens = word_tokenize(headline.lower())  # Tokenization
+#         tokens = [lemmatizer.lemmatize(word) for word in tokens if word.isalnum()]  # Lemmatization
+#         tokens = [word for word in tokens if word not in stop_words]  # Stopword removal
+#         return tokens
     
 
         
