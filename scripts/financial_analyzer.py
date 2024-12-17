@@ -6,6 +6,8 @@ import plotly.express as px
 from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
 from pypfopt import expected_returns
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 import matplotlib.pyplot as plt
 
@@ -58,24 +60,63 @@ class FinancialAnalyzer:
         return portfolio_return, portfolio_volatility,sharpe_ratio
  
 class PlotGraph:
-    def plot_stock_data(dataFrames,dateColumn:str='Date',stockValueCol:str='stock_value',colorCol='Color',title:str='Stock Value Over Time'):
-        # Plots stock value over time from csv file
-        color=['r','b','g','r','g','b','g','r']
-        i=0
-        for df in dataFrames:
-            # df[dateColumn]=pd.to_datetime(df[dateColumn],errors='coerce',format='%Y-%m-%d %H:%M:%S')
-            # plt.figure(figsize=(10,6))
-            plt.plot(df[dateColumn],df[stockValueCol],label=stockValueCol,color=color[i])
-            i+=1
-        plt.xlabel('Date')
-        plt.ylabel('Stock Value')
-        plt.title(title)
+    def plot_stock_data(dataFrame,title:str='Stock Value Over Time'):
+       
+        # Create a Plotly figure
+        fig = go.Figure()
 
-        # plt.xticks(rotation=45)
-        plt.grid(True)
-        plt.legend(loc='best')
-        plt.tight_layout()
-        plt.show()
+        # Add trace for Open prices
+        fig.add_trace(go.Scatter(
+            x=dataFrame['Date'],
+            y=dataFrame['Open'],
+            mode='lines',
+            name='Open',
+            line=dict(color='blue')
+        ))
+
+        # Add trace for High prices
+        fig.add_trace(go.Scatter(
+            x=dataFrame['Date'],
+            y=dataFrame['High'],
+            mode='lines',
+            name='High',
+            line=dict(color='green')
+        ))
+
+        # Add trace for Low prices
+        fig.add_trace(go.Scatter(
+            x=dataFrame['Date'],
+            y=dataFrame['Low'],
+            mode='lines',
+            name='Low',
+            line=dict(color='red')
+        ))
+
+        # Add trace for Close prices
+        fig.add_trace(go.Scatter(
+            x=dataFrame['Date'],
+            y=dataFrame['Close'],
+            mode='lines',
+            name='Close',
+            line=dict(color='orange')
+        ))
+
+        # Customize layout
+        fig.update_layout(
+            title=title,
+            xaxis_title="Date",
+            yaxis_title="Price",
+            legend_title="Price Type",
+            template="simple_white",
+            xaxis=dict(
+                rangeslider=dict(visible=True),  # Add a range slider for interactive zooming
+                type="date"
+            ),
+            height=600
+        )
+        # Show the plot
+        fig.show()
+        
 class CommonAnalysis:
     def GroupData(dataFrame,gropingCol:str):
         df_grouped=dataFrame.groupby(gropingCol)
