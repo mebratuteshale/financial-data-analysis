@@ -40,15 +40,15 @@ class FinancialAnalyzer:
         fig.show()
 
     def plot_rsi(self,data):
-        fig=px.line(data,x=data.index,y='RSI',title='Relative Strength Index (RSI)')
+        fig=px.line(data,x=data.Date,y='RSI',title='Relative Strength Index (RSI)')
         fig.show
 
     def plot_ema(self,data):
-        fig=px.line(data,x=data.index,y=['Close','EMA'],title='Stock Price with Exponent')
+        fig=px.line(data,x=data.Date,y=['Close','EMA'],title='Stock Price with Exponent')
         fig.show()
 
     def plot_macd(self,data):
-        fig=px.line(data,x=data.index,y=['MACD','MACD_Signal'],title='Moving Average ')
+        fig=px.line(data,x=data.Date,y=['MACD','MACD_Signal'],title='Moving Average ')
 
     def calculate_portfolio_weight(self,tickers,start_date,end_date):
         data=yf.download(tickers,start=start_date,end=end_date)['Close']
