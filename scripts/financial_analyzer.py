@@ -10,8 +10,15 @@ from pypfopt import risk_models
 from pypfopt import expected_returns
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-
 import matplotlib.pyplot as plt
+
+# from scripts.financial_analyzer import SentimentAnalysis
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+import nltk
+import gensim
+from gensim import corpora
 
 
 class FinancialAnalyzer:
@@ -138,10 +145,31 @@ class CommonAnalysis:
         dataframe=dataframe.loc[:,~dataframe.columns.str.contains('^Unnamed')]
         return dataframe
 
+
+# Preprocessing
+
+
+stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer()
 class SentimentAnalysis:
     def calculate_sentiment(text):
         return TextBlob(text).sentiment.polarity
     
+    def get_sentiment(headline):
+        analysis = TextBlob(headline)
+        if analysis.sentiment.polarity > 0:
+            return 'Positive'
+        elif analysis.sentiment.polarity < 0:
+            return 'Negative'
+        else:
+            return 'Neutral'
+
+    # Text Preprocessing
+    def preprocess_text(headline):
+        tokens = word_tokenize(headline.lower())  # Tokenization
+        tokens = [lemmatizer.lemmatize(word) for word in tokens if word.isalnum()]  # Lemmatization
+        tokens = [word for word in tokens if word not in stop_words]  # Stopword removal
+        return tokens
 
         
     
